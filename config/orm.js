@@ -2,10 +2,6 @@ var connection = require("./connection");
 
 // Object Relational Mapper (ORM)
 
-// The ?? signs are for swapping out table or column names
-// The ? signs are for swapping out other values
-// These help avoid SQL injection
-// https://en.wikipedia.org/wiki/SQL_injection
 var orm = {
     selectAll: function (tableInput) {
         return new Promise(function (resolve, reject) {
@@ -38,7 +34,6 @@ var orm = {
     deleteOne: function (tableInput, id) {
         return new Promise(function (resolve, reject) {
             var queryString = "DELETE FROM ?? WHERE id = ?;";
-            console.log(queryString);
             connection.query(queryString, [tableInput, id], function (err, result) {
                 if (err) return reject(err);
                 resolve(result);

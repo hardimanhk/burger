@@ -21,10 +21,10 @@ router.put("/api/burgers/:id", async function (req, res) {
     res.status(200).end();
 });
 
-router.delete("api/burgers/:id", async function(req, res) {
+router.delete("/api/burgers/:id", async function(req, res) {
     var result = await burger.delete(req.params.id);
     console.log(result);
-    if (result.changedRows === 0){
+    if (result.affectedRows === 0){
         return res.status(404).end();
     }
     res.status(200).end();
