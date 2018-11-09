@@ -1,4 +1,4 @@
-var connection = require("./connection.js");
+var connection = require("./connection");
 
 // Object Relational Mapper (ORM)
 
@@ -9,7 +9,7 @@ var connection = require("./connection.js");
 var orm = {
     selectAll: function (tableInput) {
         return new Promise(function (resolve, reject) {
-            var queryString = "SELECT * FROM ??";
+            var queryString = "SELECT * FROM ??;";
             connection.query(queryString, [tableInput], function (err, result) {
                 if (err) return reject(err);
                 resolve(result);
@@ -18,23 +18,33 @@ var orm = {
     },
     insertOne: function (tableInput, burger, devoured) {
         return new Promise(function (resolve, reject) {
-            var queryString = "INSERT INTO ?? VALUES (?, ?)";
+            var queryString = "INSERT INTO ?? VALUES (NULL, ?, ?);";
             connection.query(queryString, [tableInput, burger, devoured], function (err, result) {
                 if (err) return reject(err);
                 resolve(result);
             });
         });
     },
-    uptdateOne: function (tableInput, burger, devoured, id) {
+    uptdateOne: function (tableInput, devoured, id) {
         return new Promise(function (resolve, reject) {
             var queryString =
-                "UPDATE ?? SET burger_name = ?, devoured = ? WHERE id = ?";
-            connection.query(queryString, [tableInput, burger, devoured, id], function (err, result) {
+                "UPDATE ?? SET devoured = ? WHERE id = ?;";
+            connection.query(queryString, [tableInput, devoured, id], function (err, result) {
                 if (err) return reject(err);
                 resolve(result);
             });
         });
-    }
+    },
+    deleteOne: function (tableInput, id) {
+        return new Promise(function (resolve, reject) {
+            var queryString = "DELETE FROM ?? WHERE id = ?;";
+            console.log(queryString);
+            connection.query(queryString, [tableInput, id], function (err, result) {
+                if (err) return reject(err);
+                resolve(result);
+            });
+        });
+    },
 };
 
 module.exports = orm;
